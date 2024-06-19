@@ -6,6 +6,7 @@ public class PlayerCombat : MonoBehaviour
 {
     [Header("Statistics")]
     [SerializeField] int attackDamage;
+    public float bulletSpeed;
     [SerializeField] float attackCooldown;
     bool canAttack = true, isAttacking;
 
@@ -16,6 +17,7 @@ public class PlayerCombat : MonoBehaviour
     SpriteRenderer weaponGraphics;
     Animator weaponAnim;
 
+    public GameObject bulletPrefab;
     [SerializeField] GameObject weaponFlashPrefabs;
 
     Vector2 mousePos;
@@ -47,7 +49,11 @@ public class PlayerCombat : MonoBehaviour
         weaponAnim.SetTrigger("Shoot");
         SetWeaponFlashParticle();
 
-        // Do something
+        GameObject currentBullet = Instantiate(bulletPrefab, attackPoint.position , attackPoint.rotation);
+        Bullet bullet = currentBullet.GetComponent<Bullet>();
+        bullet.bulletSpeed = bulletSpeed;    
+
+        Destroy(currentBullet, 5f);
     }
     IEnumerator AttackCooldown()
     {
