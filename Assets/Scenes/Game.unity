@@ -135,6 +135,7 @@ GameObject:
   - component: {fileID: 70960897}
   - component: {fileID: 70960896}
   - component: {fileID: 70960895}
+  - component: {fileID: 70960901}
   - component: {fileID: 70960894}
   - component: {fileID: 70960900}
   - component: {fileID: 70960899}
@@ -332,6 +333,19 @@ MonoBehaviour:
   attackPoint: {fileID: 141079585}
   weapon: {fileID: 1413978500}
   weaponFlashPrefabs: {fileID: 3134715570533671755, guid: f2b816ff821a9f641ac82dfd3bfbaa8d, type: 3}
+--- !u!114 &70960901
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 70960893}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5680b5ecfd80b74499890f42117c18c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
 --- !u!1 &141079584
 GameObject:
   m_ObjectHideFlags: 0

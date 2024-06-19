@@ -6,6 +6,7 @@ public class PlayerMovement : MonoBehaviour
 {
     public int moveSpeed, jumpForce;
 
+
     [Header("Check")]
     public LayerMask groundLayer;
     public float checkRadius;
@@ -13,11 +14,15 @@ public class PlayerMovement : MonoBehaviour
 
     float xInput;
 
+    Animator animator;
+    SpriteRenderer graphics;
     Rigidbody2D rb;
 
     private void Awake()
     {
+        animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
+        graphics = GetComponent<SpriteRenderer>();
     }
 
     private void Update()
@@ -27,6 +32,9 @@ public class PlayerMovement : MonoBehaviour
             Jump();
 
         }
+
+        Flip();
+        SetAnimation();
 
         GetInput();
     }
@@ -54,6 +62,23 @@ public class PlayerMovement : MonoBehaviour
     bool IsGrounded
     {
         get { return Physics2D.OverlapCircle(groundCheckPos + (Vector2)transform.position, checkRadius, groundLayer); }
+    }
+
+    void Flip()
+    {
+        if (rb.velocity.x > 0.1)
+        {
+            graphics.flipX = false;
+        }
+        else if(rb.velocity.x < -0.1)
+        {
+            graphics.flipX = true;
+        }
+    }
+
+    void SetAnimation()
+    {
+        animator.SetFloat("Xvelocity", Mathf.Abs(rb.velocity.x));
     }
 
     private void OnDrawGizmosSelected()
