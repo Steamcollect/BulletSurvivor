@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Windows;
 
 public class BasicEnemyController : EnemyController
 {
@@ -12,7 +11,7 @@ public class BasicEnemyController : EnemyController
 
     public override void Attack()
     {
-        targetHealth.TakeDamage(attackDamage);
+        anim.SetTrigger("Attack");
         StartCoroutine(AttackCooldown());
     }
 }

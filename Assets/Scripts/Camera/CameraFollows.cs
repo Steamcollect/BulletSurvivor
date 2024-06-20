@@ -15,6 +15,11 @@ public class CameraFollows : MonoBehaviour
         Follow();
     }
 
+    private void OnValidate()
+    {
+        transform.position = target.position + posOffset;
+    }
+
     void Follow()
     {
         transform.position = Vector3.SmoothDamp(transform.position, target.position + posOffset, ref velocity, timeOffset);
