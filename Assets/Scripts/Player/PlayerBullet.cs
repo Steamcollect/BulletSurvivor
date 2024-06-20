@@ -2,9 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Bullet : MonoBehaviour
+public class PlayerBullet : MonoBehaviour
 {
-    public float bulletSpeed;
+    public float playerBulletSpeed;
+
+    public int damage;
     public Rigidbody2D rb;
 
     private void FixedUpdate()
@@ -15,11 +17,15 @@ public class Bullet : MonoBehaviour
 
     void Move()
     {
-        rb.velocity = transform.right * bulletSpeed;
+        rb.velocity = transform.right * playerBulletSpeed;
     }
 
     private void OnTriggerEnter2D(Collider2D col)
     {
+        if(col.CompareTag("Enemy"))
+        {
+            col.gameObject.GetComponent<EnemyHealth>().TakeDamage(damage);
+        }
         Destroy(gameObject, 0.01f);
     }
 }

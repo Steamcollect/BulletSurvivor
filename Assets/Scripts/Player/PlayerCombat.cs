@@ -50,8 +50,10 @@ public class PlayerCombat : MonoBehaviour
         SetWeaponFlashParticle();
 
         GameObject currentBullet = Instantiate(bulletPrefab, attackPoint.position , attackPoint.rotation);
-        Bullet bullet = currentBullet.GetComponent<Bullet>();
-        bullet.bulletSpeed = bulletSpeed;    
+        PlayerBullet bullet = currentBullet.GetComponent<PlayerBullet>();
+        bullet.playerBulletSpeed = bulletSpeed;
+        bullet.damage = attackDamage;
+        
 
         Destroy(currentBullet, 5f);
     }
