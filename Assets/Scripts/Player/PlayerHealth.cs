@@ -17,21 +17,16 @@ public class PlayerHealth : MonoBehaviour
         currentHealth = maxHealth;
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.H)) TakeDamage(20);
-        UIUpdate();
-    }
-
     public void TakeDamage(int damage)
     {
         currentHealth -= damage;
-        if (currentHealth <= 0) {
+        if (currentHealth <= 0)
+        {
+            currentHealth = 0;
             Die();
         }
-        UIUpdate();
-        
 
+        UIUpdate();
     }
 
     void UIUpdate()
