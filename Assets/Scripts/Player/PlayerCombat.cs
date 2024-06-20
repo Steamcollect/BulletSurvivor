@@ -10,6 +10,11 @@ public class PlayerCombat : MonoBehaviour
     [SerializeField] float attackCooldown;
     bool canAttack = true, isAttacking;
 
+    [Header("Statistics")]
+    public int ultDamage;
+    public float ultSpeed;
+
+
     [Header("References")]
     [SerializeField] Transform attackPoint;
 
