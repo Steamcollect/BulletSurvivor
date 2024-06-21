@@ -1,19 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerCombat : MonoBehaviour
 {
-    [Header("Statistics")]
+    [Header("Attack Statistics")]
     [SerializeField] int attackDamage;
     public float bulletSpeed;
     [SerializeField] float attackCooldown;
     bool canAttack = true, isAttacking;
 
-    [Header("Statistics")]
+    [Header("Ult Statistics")]
     public int ultDamage;
     public float ultSpeed;
+    public float ultRadius;
+    public float ultChargeRequired;
+    float ultCurrentCharge;
 
+    public Image ultChargeImage;
+    public Text ultChargeText;
 
     [Header("References")]
     [SerializeField] Transform attackPoint;
@@ -22,6 +28,7 @@ public class PlayerCombat : MonoBehaviour
     SpriteRenderer weaponGraphics;
     Animator weaponAnim;
 
+    public GameObject ultPrefab;
     public GameObject bulletPrefab;
     [SerializeField] GameObject weaponFlashPrefabs;
 
@@ -29,17 +36,29 @@ public class PlayerCombat : MonoBehaviour
 
     Camera cam;
 
+    public static PlayerCombat instance;
+
     private void Awake()
     {
         cam = Camera.main;
         weaponGraphics = weapon.GetComponent<SpriteRenderer>();
         weaponAnim = weapon.GetComponent<Animator>();
+
+        instance = this;
+
+    }
+
+    private void Start()
+    {
+        ultCurrentCharge = 0;
+        UpdateUltUI();
     }
 
     private void Update()
     {
         AttackSystem();
         Rotate();
+        UltimateSystem();
     }
 
     void AttackSystem()
@@ -62,13 +81,57 @@ public class PlayerCombat : MonoBehaviour
 
         Destroy(currentBullet, 5f);
     }
+
+    void Ultimate()
+    {
+
+        weaponAnim.SetTrigger("Shoot");
+        SetWeaponFlashParticle();
+
+        GameObject currentUlt = Instantiate(ultPrefab, attackPoint.position, attackPoint.rotation);
+        PlayerUlt ultBullet = currentUlt.GetComponent<PlayerUlt>();
+        ultBullet.ultSpeed = ultSpeed;
+        ultBullet.ultDamage = ultDamage;
+        ultBullet.ultRadius = ultRadius;
+
+
+        Destroy(currentUlt, 20f);
+    }
+
+    void UltimateSystem()
+    {
+        if(Input.GetKeyDown(KeyCode.E) && ultCurrentCharge >= ultChargeRequired)
+        { 
+            Ultimate();
+            ultCurrentCharge = 0;
+            ultChargeImage.fillAmount = ultCurrentCharge / ultChargeRequired;
+
+        }
+    }
+
+    public void AddUltCharge(int chargeGiven)
+    {
+        ultCurrentCharge += chargeGiven;
+
+        if (ultCurrentCharge > ultChargeRequired) ultCurrentCharge = ultChargeRequired;
+        UpdateUltUI();
+    }
+
+    void UpdateUltUI()
+    {
+        ultChargeImage.fillAmount = ultCurrentCharge / ultChargeRequired;
+        ultChargeText.text = (ultCurrentCharge/ultChargeRequired * 100).ToString("F0") + "%";
+
+    }
+
+
     IEnumerator AttackCooldown()
     {
         canAttack = false;
         yield return new WaitForSeconds(attackCooldown);
         canAttack = true;
     }
-
+    
     void SetWeaponFlashParticle()
     {
         GameObject weaponFlash = Instantiate(weaponFlashPrefabs, attackPoint.position, attackPoint.rotation);

@@ -7,8 +7,12 @@ public class EnemyHealth : MonoBehaviour
     float currentEnemyHealth;
     public float maxEnemyHealth;
 
+    public int chargeGiven;
+
     EnemyController enemyController;
     Animator anim;
+
+
 
     private void Awake()
     {
@@ -31,6 +35,7 @@ public class EnemyHealth : MonoBehaviour
             anim.SetTrigger("Die");
             StartCoroutine(Die());
             enemyController.Die();
+            PlayerCombat.instance.AddUltCharge(chargeGiven);
         }
         else
         {
