@@ -13,10 +13,11 @@ public class PlayerUlt : MonoBehaviour
     public Rigidbody2D rb;
     public float ultRadius;
 
+    public GameObject explosionPrefabs;
+
     private void FixedUpdate()
     {
         Move();
-
     }
 
     void Move()
@@ -32,6 +33,8 @@ public class PlayerUlt : MonoBehaviour
 
     void Explode()
     {
+        Destroy(Instantiate(explosionPrefabs, transform.position, transform.rotation), .4f);
+
         Collider2D[] collisions = Physics2D.OverlapCircleAll(transform.position, ultRadius, enemyLayer);
         foreach (Collider2D hit in collisions)
         {

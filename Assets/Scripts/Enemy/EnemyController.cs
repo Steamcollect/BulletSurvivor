@@ -36,8 +36,16 @@ public abstract class EnemyController : MonoBehaviour
     private void Start()
     {
         StartCoroutine(FreezMovement(1f));
+        StartCoroutine(SetCollid());
     }
 
+    IEnumerator SetCollid()
+    {
+        yield return new WaitForSeconds(.5f);
+
+        rb.constraints = RigidbodyConstraints2D.FreezeRotation | RigidbodyConstraints2D.FreezePositionY;
+        collid.isTrigger = true;
+    }
     private void Update()
     {
         if (Vector2.Distance(target.position, transform.position) < attackRange && canAttack)
