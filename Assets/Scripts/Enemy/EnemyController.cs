@@ -16,7 +16,7 @@ public abstract class EnemyController : MonoBehaviour
 
     [HideInInspector]public bool canAttack = true;
 
-    [HideInInspector] public Transform target;
+    public Transform target;
     [HideInInspector] public PlayerHealth targetHealth;
 
     [HideInInspector] public Rigidbody2D rb;

@@ -6,8 +6,12 @@ public class EnemyHealth : MonoBehaviour
 {
     float currentEnemyHealth;
     public float maxEnemyHealth;
+    public float defaultEnemyHealth;
 
-    public int chargeGiven;
+    public float chargeGiven;
+    public float scoreGiven;
+
+    public float multiplier = 1;
 
     EnemyController enemyController;
     Animator anim;
@@ -22,7 +26,9 @@ public class EnemyHealth : MonoBehaviour
 
     private void Start()
     {
-        currentEnemyHealth = maxEnemyHealth;
+        multiplier += ScoreManager.instance.score / 20 ;
+        currentEnemyHealth = defaultEnemyHealth * multiplier;
+        if (currentEnemyHealth > maxEnemyHealth) currentEnemyHealth = maxEnemyHealth;
     }
 
     public void TakeDamage(int damage)
@@ -35,7 +41,8 @@ public class EnemyHealth : MonoBehaviour
             anim.SetTrigger("Die");
             StartCoroutine(Die());
             enemyController.Die();
-            PlayerCombat.instance.AddUltCharge(chargeGiven);
+            PlayerCombat.instance.AddUltCharge(chargeGiven * multiplier /2);
+            ScoreManager.instance.AddScore(scoreGiven * multiplier);
         }
         else
         {

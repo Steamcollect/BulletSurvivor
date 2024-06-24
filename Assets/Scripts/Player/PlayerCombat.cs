@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
+
 
 public class PlayerCombat : MonoBehaviour
 {
@@ -19,7 +21,7 @@ public class PlayerCombat : MonoBehaviour
     float ultCurrentCharge;
 
     public Image ultChargeImage;
-    public Text ultChargeText;
+    public TMP_Text ultChargeText;
 
     [Header("References")]
     [SerializeField] Transform attackPoint;
@@ -109,7 +111,7 @@ public class PlayerCombat : MonoBehaviour
         }
     }
 
-    public void AddUltCharge(int chargeGiven)
+    public void AddUltCharge(float chargeGiven)
     {
         ultCurrentCharge += chargeGiven;
 
